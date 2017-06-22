@@ -1,0 +1,12 @@
+.no-border {
+   border: none !important;
+}
+
+#stopBtn {
+   font-size: 1.1em;
+   padding: 3px 7px;
+}
+
+.table td {
+   vertical-align: middle;
+}
