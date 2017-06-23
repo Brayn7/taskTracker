@@ -15,8 +15,16 @@
         $task_date = !empty($_GET['task_date']) ? htmlentities($_GET['task_date']) : $task_date;
         $clock_in_time = !empty($_GET['clock_in_time']) ? htmlentities($_GET['clock_in_time']) : $clock_in_time;
         $clock_out_time = !empty($_GET['clock_out_time']) ? htmlentities($_GET['clock_out_time']) : $clock_out_time;
-          addTask(getDB(), $task_name, $task_date, $clock_in_time, $clock_out_time);
-      }
+       
+
+           if (isset($_GET['updating'])){
+            $id = htmlentities($_GET['updating']);
+            updateRow(getDB(), $id, $task_name, $task_date, $clock_in_time, $clock_out_time);
+          } else {
+            addTask(getDB(), $task_name, $task_date, $clock_in_time, $clock_out_time);
+          }
+       }
+  
 
       if (isset($_GET['removeTask'])){
         $id = htmlentities($_GET['removeTask']);
@@ -26,6 +34,11 @@
       if (isset($_GET['stopTime'])){
         $id = htmlentities($_GET['stopTime']);
         stopTime(getDB(), $id);
+      }
+
+      if(isset($_GET['editTask'])){
+        $id = htmlentities($_GET['editTask']);
+        $data = getRow(getDB(), $id); 
       }
 
 
@@ -42,6 +55,11 @@
       function getTasks ($db){
          $request = pg_query($db, 'SELECT * FROM times;');
          return pg_fetch_all($request);
+      }
+
+      function getRow ($db, $id){
+          $request = pg_query($db, "SELECT * FROM times WHERE id = '$id' ");
+          return pg_fetch_all($request)[0];
       }
      
       function addTask($db, $task, $date, $clockin, $clockout) {
@@ -64,4 +82,9 @@
         $result = pg_query($stmt);
       }
 
-      ?>
+      function updateRow ($db, $id, $task, $date, $clockin, $clockout){
+        $stmt = "UPDATE times SET (task_name, task_date, clock_in_time, clock_out_time) = ('$task', '$date', '$clockin', '$clockout') WHERE id = '$id' ;";
+        $result = pg_query($stmt);
+      }
+
+?>

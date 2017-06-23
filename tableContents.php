@@ -22,6 +22,7 @@
         </form>
         <form class="form-inline d-inline" action="GET" action="">
           <div class="d-inline-block p-0">
+
             <input name="editTask" type="hidden" value='<?=$task["id"];?>'>
             <button class="btn btn-info btn-sm" type="submit" >
             <span>&#9998;</span>
@@ -36,22 +37,22 @@
         <?=$task['task_name'];?>
       </td>
       <td>
-        <?=$task['clock_in_time'];?>
+        <?= date('h:i A', strtotime($task['clock_in_time']));?>
       </td>
       <td>
         <?php
         
         if ($task['clock_out_time'] === null){
-        echo '<form class="form-inline d-inline" action="GET" action="">
-          <div class="d-inline-block p-0 ">
-            <input name="stopTime" type="hidden" value=' . $task["id"] .'>
-            <button id="stopBtn" class="no-border btn btn-outline-danger" type="submit" >
-            <i class="fa fa-stop-circle-o"></i>
-            </button>
-          </div>
-        </form>';
+          echo '<form class="form-inline d-inline" action="GET" action="">
+            <div class="d-inline-block p-0 ">
+              <input name="stopTime" type="hidden" value=' . $task["id"] .'>
+              <button id="stopBtn" class="no-border btn btn-outline-danger" type="submit" >
+              <i class="fa fa-stop-circle-o"></i>
+              </button>
+            </div>
+          </form>';
         } else {
-        echo $task['clock_out_time'];
+          echo date('h:i A', strtotime($task['clock_out_time']));
         }
         
         ?>
