@@ -47,8 +47,8 @@
             host = localhost
             port = 5432
             dbname = timesheet
-            user = brayn7
-            password = admin
+            user = #####
+            password = ####
       ');
       }
 
