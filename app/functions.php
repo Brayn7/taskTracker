@@ -4,6 +4,17 @@
       require __DIR__ . "../../vendor/autoload.php";
       $dotenv = new Dotenv\Dotenv(__DIR__);
       $dotenv->load();
+      use Herrera\Pdo\PdoServiceProvider;
+      use Silex\Application;
+      $app = new Application();
+      $dbopts = parse_url(getenv('DB_URL'));
+      $app->register(new Herrera\Pdo\PdoServiceProvider(),
+               array(
+                   'pdo.dsn' => 'pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"] . ';port=' . $dbopts["port"],
+                   'pdo.username' => $dbopts["user"],
+                   'pdo.password' => $dbopts["pass"]
+               )
+        );
 
       ########### CONTENTS ############
         // 1. INITIAL VARS     
