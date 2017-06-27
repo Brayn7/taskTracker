@@ -10,19 +10,27 @@
       $dbopts = parse_url(getenv('DB_URL'));
       $app->register(new Herrera\Pdo\PdoServiceProvider(),
                array(
-                   'pdo.dsn' => 'pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"] . ';port=' . $dbopts["port"],
+                   'pdo.host' => $dbopts["host"],
+                   'pdo.dbname' => ltrim($dbopts["path"],'/'),
+                   'pdo.port' => $dbopts["port"],
                    'pdo.username' => $dbopts["user"],
                    'pdo.password' => $dbopts["pass"]
                )
         );
 
         $pdo = $app;
-        var_dump($pdo);
+        var_dump($pdo['pdo.host']);
 
       // connect to DB
       function getDB (){
         global $pdo;
-         return pg_connect("$pdo[pdo.dsn] $pdo[pdo.username] $pdo[pdo.password]");
+         return pg_connect("
+              host = $pdo[pdo.host]
+              port = $pdo[pdo.port]
+              dbname = $pdo[pdo.dbname]
+              user = $pdo[pdo.username]
+              password = $pdo[pdo.password]
+          ");
       }
 
       ########### CONTENTS ############
