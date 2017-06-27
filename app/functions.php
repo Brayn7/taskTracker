@@ -7,7 +7,7 @@
       use Herrera\Pdo\PdoServiceProvider;
       use Silex\Application;
       $app = new Application();
-      $dbopts = parse_url(getenv('DB_URL'));
+      $dbopts = parse_url(getenv('DATABASE_URL'));
       $app->register(new Herrera\Pdo\PdoServiceProvider(),
                array(
                    'pdo.dsn' => 'pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"] . ';port=' . $dbopts["port"],
@@ -20,7 +20,8 @@
       // connect to DB
       function getDB (){
         global $pdo;
-        return new PDO($pdo["pdo.dsn"], $pdo["pdo.username"], $pdo["pdo.password"]);
+        var_dump($pdo);
+        return $pdo;
          // return pg_connect("
          //      host = $pdo[pdo.host]
          //      port = $pdo[pdo.port]
