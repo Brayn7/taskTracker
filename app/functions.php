@@ -16,6 +16,8 @@
                )
         );
 
+        $pdo = $app['pdo'];
+
       ########### CONTENTS ############
         // 1. INITIAL VARS     
         // 2. IS-SETS
@@ -79,13 +81,8 @@
 
       // connect to DB
       function getDB (){
-         return pg_connect("
-            host = $_ENV[HOST]
-            port = $_ENV[PORT]
-            dbname = $_ENV[DB_NAME]
-            user = $_ENV[SECRET_ID]
-            password = $_ENV[SECRET_KEY]
-      ");
+        global $pdo;
+         return pg_connect($pdo);
       }
       // get all rows and columns from times
       function getTasks ($db){
