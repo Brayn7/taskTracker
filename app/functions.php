@@ -20,8 +20,7 @@
       // connect to DB
       function getDB (){
         global $pdo;
-        var_dump($pdo);
-        return $pdo;
+        return $pdo['pdo'];
          // return pg_connect("
          //      host = $pdo[pdo.host]
          //      port = $pdo[pdo.port]
