@@ -1,3 +1,9 @@
+#showForm, #hideForm {
+    position: fixed;
+    left: 10px;
+    font-size: 1.75em;
+}
+
 .no-border {
    border: none !important;
 }
