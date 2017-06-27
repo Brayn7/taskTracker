@@ -16,7 +16,14 @@
                )
         );
 
-        $pdo = $app['pdo'];
+        $pdo = $app;
+        var_dump($pdo);
+
+      // connect to DB
+      function getDB (){
+        global $pdo;
+         return pg_connect("$pdo[pdo.dsn] $pdo[pdo.username] $pdo[pdo.password]");
+      }
 
       ########### CONTENTS ############
         // 1. INITIAL VARS     
@@ -79,11 +86,7 @@
 
        ########### 3. FUNCTIONS ############
 
-      // connect to DB
-      function getDB (){
-        global $pdo;
-         return pg_connect($pdo);
-      }
+
       // get all rows and columns from times
       function getTasks ($db){
          $request = pg_query($db, 'SELECT * FROM times;');
