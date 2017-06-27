@@ -4,30 +4,30 @@
       require __DIR__ . "../../vendor/autoload.php";
       $dotenv = new Dotenv\Dotenv(__DIR__);
       $dotenv->load();
-      use Herrera\Pdo\PdoServiceProvider;
-      use Silex\Application;
-      $app = new Application();
-      $dbopts = parse_url(getenv('DATABASE_URL'));
-      $app->register(new Herrera\Pdo\PdoServiceProvider(),
-               array(
-                   'pdo.dsn' => 'pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"] . ';port=' . $dbopts["port"],
-                   'pdo.username' => $dbopts["user"],
-                   'pdo.password' => $dbopts["pass"]
-               )
-        );
-      $pdo = $app;
+      // use Herrera\Pdo\PdoServiceProvider;
+      // use Silex\Application;
+      // $app = new Application();
+      // $dbopts = parse_url(getenv('DATABASE_URL'));
+      // $app->register(new Herrera\Pdo\PdoServiceProvider(),
+      //          array(
+      //              'pdo.dsn' => 'pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"] . ';port=' . $dbopts["port"],
+      //              'pdo.username' => $dbopts["user"],
+      //              'pdo.password' => $dbopts["pass"]
+      //          )
+      //   );
+      // $pdo = $app;
 
       // connect to DB
       function getDB (){
-        global $pdo;
-        return $pdo['pdo'];
-         // return pg_connect("
-         //      host = $pdo[pdo.host]
-         //      port = $pdo[pdo.port]
-         //      dbname = $pdo[pdo.dbname]
-         //      user = $pdo[pdo.username]
-         //      password = $pdo[pdo.password]
-         //  ");
+        // global $pdo;
+        // return $pdo['pdo'];
+         return pg_connect("
+              host = $_ENV[HOST];
+              port = $_ENV[PORT]
+              dbname = $pdo[DB_NAME]
+              user = $pdo[SECRET_ID]
+              password = $pdo[SECRET_KEY]
+          ");
       }
 
       ########### CONTENTS ############
