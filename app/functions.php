@@ -22,11 +22,11 @@
         // global $pdo;
         // return $pdo['pdo'];
          return pg_connect("
-              host = $_ENV[HOST];
+              host = $_ENV[HOST]
               port = $_ENV[PORT]
-              dbname = $pdo[DB_NAME]
-              user = $pdo[SECRET_ID]
-              password = $pdo[SECRET_KEY]
+              dbname = $_ENV[DB_NAME]
+              user = $_ENV[SECRET_ID]
+              password = $_ENV[SECRET_KEY]
           ");
       }
 
@@ -89,41 +89,65 @@
         $data = getRow(getDB(), $id); 
       }
 
+      if (isset($_GET['submit'])){
+          $cleanGet = $_GET;
+        foreach ($cleanGet as $key => $value) {
+          $key = htmlentities($value);
+        }
+        switch ($cleanGet['submit']) {
+        case 'add_client': 
+          $cleanName = $cleanGet['client_name'];
+          addRowTo(getDB(), "clients" , array("name") , array($cleanName));
+          break;
+        case 'delete_client': 
+          $cleanId = $cleanGet['id'];
+          removeRow(getDB(), "clients", $cleanId);
+          break; 
+        case 'edit_client': 
+          $cleanId = $cleanGet['id'];
+          $cleanName = $cleanGet['client_name'];
+          editRow(getDB(), "clients", array("name"), array($cleanName), $cleanId);
+          break;   
+        }
+      }
+      
+
+
        ########### 3. FUNCTIONS ############
 
 
-      // get all rows and columns from times
+      // get all rows and columns from tasks
       function getTasks ($db){
-         $request = pg_query($db, 'SELECT * FROM times;');
+         $request = pg_query($db, 'SELECT * FROM tasks;');
          return pg_fetch_all($request);
       }
       // get one row via id
       function getRow ($db, $id){
-          $request = pg_query($db, "SELECT * FROM times WHERE id = '$id' ");
+          $request = pg_query($db, "SELECT * FROM tasks WHERE id = '$id' ");
           return pg_fetch_all($request)[0];
       }
      // add a new row 
       function addTask($db, $task, $date, $clockin, $clockout) {
         // if $clockout is set to a time then add it too
         if ($clockout){
-          $stmt = "insert into times (task_name, task_date, clock_in_time, clock_out_time) values ('$task', '$date', '$clockin', '$clockout' );";
+          $stmt = "insert into tasks (task_name, task_date, clock_in_time, clock_out_time) values ('$task', '$date', '$clockin', '$clockout' );";
         } else {
           // otherwise leave it null
-          $stmt = "insert into times (task_name, task_date, clock_in_time, clock_out_time) values ('$task', '$date', '$clockin', NULL);";
+          $stmt = "insert into tasks (task_name, task_date, clock_in_time, clock_out_time) values ('$task', '$date', '$clockin', NULL);";
         }
         $result = pg_query($stmt);
       }
 
       // get row via id and remove it
       function removeTask ($db, $id){
-        $stmt = "DELETE FROM times WHERE id = '$id';";
+        $stmt = "DELETE FROM tasks WHERE id = '$id';";
         $result = pg_query($stmt);
       }
       // get row via id and update the clock out time
       function stopTime ($db, $id){
         $time = date('H:i:s');
         $date = date('m/d/y');
-        $stmt = "UPDATE times SET (clock_out_time, last_update_date, last_update_time) = ('$time', '$date', '$time') WHERE id = '$id' ;";
+        $stmt = "UPDATE tasks SET (clock_out_time, last_update) = ('$time', DEFAULT) WHERE id = '$id' ;";
         $result = pg_query($stmt);
       }
       // update row with changed data 
@@ -131,11 +155,37 @@
         $time = date('H:i:s');
         $date = date('m/d/y');
         if ($clockout){
-          $stmt = "UPDATE times SET (task_name, task_date, clock_in_time, clock_out_time, last_update_date, last_update_time) = ('$task', '$date', '$clockin', '$clockout', '$date' , '$time') WHERE id = '$id' ;";
+          $stmt = "UPDATE tasks SET (task_name, task_date, clock_in_time, clock_out_time, last_update) = ('$task', '$date', '$clockin', '$clockout', DEFAULT) WHERE id = '$id' ;";
         } else {
-          $stmt = "UPDATE times SET (task_name, task_date, clock_in_time, clock_out_time, last_update_date, last_update_time) = ('$task', '$date', '$clockin', NULL , '$date', '$time') WHERE id = '$id' ;";
+          $stmt = "UPDATE tasks SET (task_name, task_date, clock_in_time, clock_out_time, last_update) = ('$task', '$date', '$clockin', NULL , DEFAULT) WHERE id = '$id' ;";
         }
         
+        $result = pg_query($stmt);
+      }
+      ####  add clients page  ####
+      // get clients
+      function getClients ($db){
+        $rq = pg_query($db, "SELECT * FROM clients");
+        return pg_fetch_all($rq);
+      }
+
+      // add client name
+      function addRowTo($db, $table, $cols , $vals ) {
+       $cols = implode(",",$cols);
+       $vals = implode(",", $vals);
+       $stmt = "insert into $table ($cols) values ('$vals');";
+       $result = pg_query($stmt);
+     }
+
+     function removeRow ($db, $table, $id){
+        $stmt = "DELETE FROM $table WHERE id = '$id';";
+        $result = pg_query($stmt);
+      }
+
+      function editRow ($db, $table, $cols, $vals, $id){
+        $cols = implode(",",$cols);
+        $vals = implode(",", $vals);
+        $stmt = "UPDATE $table SET ($cols) = ('$vals') WHERE id = '$id' ;";
         $result = pg_query($stmt);
       }
 

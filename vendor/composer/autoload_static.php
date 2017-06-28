@@ -6,7 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInita1318dc9756a43695ce13c35a79c9515
 {
+    public static $files = array (
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Routing\\' => 26,
+            'Symfony\\Component\\HttpKernel\\' => 29,
+            'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Component\\EventDispatcher\\' => 34,
+            'Symfony\\Component\\Debug\\' => 24,
+            'Silex\\' => 6,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'D' => 
         array (
             'Dotenv\\' => 7,
@@ -14,6 +32,38 @@ class ComposerStaticInita1318dc9756a43695ce13c35a79c9515
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Routing\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/routing',
+        ),
+        'Symfony\\Component\\HttpKernel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-kernel',
+        ),
+        'Symfony\\Component\\HttpFoundation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-foundation',
+        ),
+        'Symfony\\Component\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
+        'Silex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/silex/silex/src/Silex',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
@@ -21,11 +71,26 @@ class ComposerStaticInita1318dc9756a43695ce13c35a79c9515
     );
 
     public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/lib',
+            ),
+        ),
         'M' => 
         array (
             'Monolog' => 
             array (
                 0 => __DIR__ . '/..' . '/monolog/monolog/src',
+            ),
+        ),
+        'H' => 
+        array (
+            'Herrera\\Pdo' => 
+            array (
+                0 => __DIR__ . '/..' . '/herrera-io/pdo-log/src/lib',
+                1 => __DIR__ . '/..' . '/herrera-io/silex-pdo/src/lib',
             ),
         ),
     );

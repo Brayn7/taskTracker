@@ -1,6 +1,7 @@
 {
     "require": {
         "monolog/monolog": "1.0.*",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "herrera-io/silex-pdo": "^1.2"
     }
 }
